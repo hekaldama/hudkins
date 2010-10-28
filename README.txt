@@ -4,7 +4,7 @@
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Rake tasks for updating your scm url and releasing your project
 
 == FEATURES/PROBLEMS:
 
