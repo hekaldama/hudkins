@@ -1,5 +1,5 @@
 class Hapi
-  VERSION = '1.0.0'
+  VERSION = '0.1.0'
 
   attr_accessor :host, :url, :version
 
