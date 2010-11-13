@@ -5,7 +5,7 @@ class TestHapiJob < MiniTest::Unit::TestCase
   def setup
     @host = "http://hudson.int.atti.com"
     @data = {"name"=>"project_name", "url"=>"http://example.com/job/project_name/", "color"=>"blue"}
-    @hud = Hapi::Base.new @host
+    @hud = Hapi.new @host
     @hud.expects(:get).at_least_once.with("/api/json").returns( mock_jobs )
     @jobs = @hud.jobs
     @job = @jobs.find_by_name "project_name"

@@ -4,7 +4,7 @@ require "hapi"
 class TestHapi < MiniTest::Unit::TestCase
   def setup
     @host = "http://hudson.int.atti.com"
-    @hud = Hapi::Base.new @host
+    @hud = Hapi.new @host
     @hud.expects(:get).at_least_once.with("/api/json").returns( mock_jobs )
     @hud.jobs
   end
@@ -18,7 +18,7 @@ class TestHapi < MiniTest::Unit::TestCase
   #end
 
   def test_object_inspect
-    s = Hapi::Base.object_inspect self, "foobar"
+    s = Hapi.object_inspect self, "foobar"
     assert_kind_of String, s
     assert_match /foobar/, s
   end
@@ -40,9 +40,9 @@ class TestHapi < MiniTest::Unit::TestCase
 
   def test_get
     RestClient::Resource.any_instance.expects(:get).once
-    Hapi::Base.new.get "/my/path"
+    Hapi.new.get "/my/path"
     assert_raises ArgumentError do 
-      Hapi::Base.new.get
+      Hapi.new.get
     end
   end
 
@@ -69,5 +69,9 @@ class TestHapi < MiniTest::Unit::TestCase
       @hud.post "/my/path", "bad_data"
     end
   end
+
+  #def test_setup_using_class
+    #Hapi.
+  #end
 
 end
