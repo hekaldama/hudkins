@@ -9,10 +9,6 @@ class Hapi
   attr_accessor :host, :url, :version, :resource
 
   class << self #class methods
-    def setup &block
-      const_set("SETUP_PROC", block)
-    end
-
     def object_inspect obj, string
       "#{obj.to_s[0..-2]} #{string}>"
       #"#<#{self.class}:0x#{"%x" % (self.object_id << 1)} #{string}>"
@@ -20,11 +16,8 @@ class Hapi
   end
 
   def initialize(host = "http://example.com")
-    @host = URI.parse( ENV["hapi_host"] || host )
+    @host ||= URI.parse( ENV["hapi_host"] || host )
     @resource ||= RestClient::Resource.new @host.to_s
-    #@url ||= ENV["url"]
-    #@version ||= ENV["version"]
-    #SETUP_PROC.call(self) if Module.const_defined? "SETUP_PROC"
   end
 
   def host

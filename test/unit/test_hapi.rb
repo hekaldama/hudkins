@@ -70,8 +70,4 @@ class TestHapi < MiniTest::Unit::TestCase
     end
   end
 
-  #def test_setup_using_class
-    #Hapi.
-  #end
-
 end
