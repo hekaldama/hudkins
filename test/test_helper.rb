@@ -7,35 +7,35 @@ MiniTest::Unit.autorun
 class MiniTest::Unit::TestCase
   def mock_config
   <<-EOXML
-  <?xml version="1.0" encoding="UTF-8"?><project>
-  <actions/>
-  <description/>
-  <keepDependencies>false</keepDependencies>
-  <properties/>
-  <scm class="hudson.scm.SubversionSCM">
-  <locations>
-  <hudson.scm.SubversionSCM_-ModuleLocation>
-  <remote>https://subversion/project_name/branches/current_branch</remote>
-  <local>.</local>
-  </hudson.scm.SubversionSCM_-ModuleLocation>
-  </locations>
-  <useUpdate>true</useUpdate>
-  <doRevert>false</doRevert>
-  <excludedRegions/>
-  <includedRegions/>
-  <excludedUsers/>
-  <excludedRevprop/>
-  <excludedCommitMessages/>
-  </scm>
-  <canRoam>true</canRoam>
-  <disabled>true</disabled>
-  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <triggers class="vector"/>
-  <concurrentBuild>false</concurrentBuild>
-  <builders/>
-  <publishers/>
-  <buildWrappers/>
-  </project>
+<?xml version="1.0" encoding="UTF-8"?><project>
+<actions/>
+<description/>
+<keepDependencies>false</keepDependencies>
+<properties/>
+<scm class="hudson.scm.SubversionSCM">
+<locations>
+<hudson.scm.SubversionSCM_-ModuleLocation>
+<remote>https://subversion/project_name/branches/current_branch</remote>
+<local>.</local>
+</hudson.scm.SubversionSCM_-ModuleLocation>
+</locations>
+<useUpdate>true</useUpdate>
+<doRevert>false</doRevert>
+<excludedRegions/>
+<includedRegions/>
+<excludedUsers/>
+<excludedRevprop/>
+<excludedCommitMessages/>
+</scm>
+<canRoam>true</canRoam>
+<disabled>true</disabled>
+<blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+<triggers class="vector"/>
+<concurrentBuild>false</concurrentBuild>
+<builders/>
+<publishers/>
+<buildWrappers/>
+</project>
   EOXML
   end
 
