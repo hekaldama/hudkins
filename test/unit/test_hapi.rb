@@ -39,11 +39,19 @@ class TestHapi < MiniTest::Unit::TestCase
   end
 
   def test_get
-    RestClient::Resource.any_instance.expects(:get).once
-    Hapi.new.get "/my/path"
+    RestClient::Resource.any_instance.expects(:get).once.returns( "path/info" )
+    assert Hapi.new.get( "/my/path" ), "hapi.get should return true"
     assert_raises ArgumentError do 
       Hapi.new.get
     end
+  end
+
+  def test_get_with_invalid_path
+    RestClient::Resource.any_instance.expects(:get).with( "/invalid/path", @hud.send(:get_default_options) ).raises( RestClient::ResourceNotFound )
+    @hud.get "/invalid/path" 
+    #assert_raises RestClient::ResourceNotFound do
+      #Hapi.new.get "/invalid/path"
+    #end
   end
 
   def test_parse_body_json

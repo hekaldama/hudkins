@@ -36,13 +36,13 @@ class Hapi
     @jobs = initialize_jobs
   end
 
-  def get path
+  def get path, opts = {}
     # allow symbals
-    @resource[path.to_s].get
+    @resource[path.to_s].get get_default_options.merge( opts )
   end
 
-  def get_parsed path
-    parse_body get(path)
+  def get_parsed *args
+    parse_body get(*args)
   end
 
   def post path, data
@@ -78,6 +78,11 @@ class Hapi
     def initialize_jobs
       Hapi::Jobs.new(self)
     end
+
+    def get_default_options
+      {:accept => "text/plain"}
+    end
+
 
 end
 
