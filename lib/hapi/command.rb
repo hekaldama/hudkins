@@ -21,7 +21,8 @@ class Hapi::Command < Hapi::Common
     end
 
     def usage_msg
-      <<-EOB
+      @cmd_list ||= %w(build list config)
+      usage = <<-EOB
 
 Usage: hapi [opts] commands [job_name]
 
@@ -34,6 +35,9 @@ Usage: hapi [opts] commands [job_name]
     end
 
     def parse_options
+      # initialize cmd_list. This seems hacky, but I like having the cmd_list
+      # near the usage statement.
+      usage_msg 
       @options = {}
 
       OptionParser.new do |opts|
@@ -54,7 +58,6 @@ Usage: hapi [opts] commands [job_name]
         end
       end.parse!
 
-      @cmd_list = %w(build list config)
 
       @command, @job_name = ARGV
 
@@ -62,6 +65,7 @@ Usage: hapi [opts] commands [job_name]
     end
 
     def parse_command
+      # select unambiguous command to run.
       cmd = @cmd_list.select {|c| Regexp.new(@command, Regexp::IGNORECASE) === c}
       case cmd.size
       when 0 then
