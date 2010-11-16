@@ -8,13 +8,6 @@ class Hapi
 
   attr_accessor :host, :url, :version, :resource
 
-  class << self #class methods
-    def object_inspect obj, string
-      "#{obj.to_s[0..-2]} #{string}>"
-      #"#<#{self.class}:0x#{"%x" % (self.object_id << 1)} #{string}>"
-    end
-  end
-
   def initialize(host = "http://example.com")
     @host ||= URI.parse( ENV["hapi_host"] || host )
     @resource ||= RestClient::Resource.new @host.to_s
@@ -86,6 +79,8 @@ class Hapi
 
 end
 
+require "hapi/mixin"
+require "hapi/common"
 require "hapi/jobs"
 require "hapi/job"
 

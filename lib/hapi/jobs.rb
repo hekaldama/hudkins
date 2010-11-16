@@ -1,4 +1,4 @@
-class Hapi::Jobs
+class Hapi::Jobs < Hapi::Common
   include Enumerable
 
   def initialize(hapi)
@@ -12,7 +12,7 @@ class Hapi::Jobs
 
   def inspect
     # hide instance variables
-    @hapi.class.object_inspect self, "@jobs=`#{@jobs.class}', ..."
+    foo_inspect + "@jobs=`#{@jobs.class}', ..."
   end
 
   # Enumerable
