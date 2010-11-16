@@ -8,6 +8,7 @@ class Hapi::Command < Hapi::Common
       send @command
     end
 
+    # commands:
     def build
       puts "building!!!"
     end
@@ -20,6 +21,7 @@ class Hapi::Command < Hapi::Common
       puts "configing!!!"
     end
 
+    # helpers:
     def usage_msg
       @cmd_list ||= %w(build list config)
       usage = <<-EOB
