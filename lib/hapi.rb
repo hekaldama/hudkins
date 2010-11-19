@@ -6,7 +6,7 @@ require "nokogiri"
 class Hapi
   VERSION = '0.1.0'
 
-  attr_accessor :host, :url, :version, :resource
+  attr_accessor :host, :resource
 
   def initialize(host = "http://example.com")
     @host ||= URI.parse( ENV["hapi_host"] || host )
@@ -46,7 +46,7 @@ class Hapi
     end
   end
 
-  def post_hash *args
+  def post_parsed *args
     # not sure if post returns either of these...
     parse_body post(*args)
   end
@@ -63,7 +63,7 @@ class Hapi
         raise "unrecognized response."
       end
     rescue => e
-      raise "unparsable response."
+      raise "unparsable response. #{e.message}"
     end
   end
 

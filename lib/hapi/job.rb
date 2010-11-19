@@ -34,9 +34,11 @@ class Hapi::Job < Hapi::Common
     update_config
   end
 
-  attr_accessor_from_config :scm_url,  "//scm//remote"
-  attr_accessor_from_config :disabled, "//project//disabled", :bool
-  attr_accessor_from_config :can_roam, "//project//canRoam",  :bool
+  attr_accessor_from_config :scm_url,             "//scm//remote"
+  attr_accessor_from_config :can_roam,            "//project//canRoam",                         :bool
+  attr_accessor_from_config :disabled,            "//project//disabled",                        :bool
+  attr_accessor_from_config :blocked_by_upstream, "//project//blockBuildWhenUpstreamBuilding",  :bool
+  attr_accessor_from_config :concurrent_builds,   "//project//concurrentBuild",                 :bool
 
   def build!
     @hapi.get path + "/build"

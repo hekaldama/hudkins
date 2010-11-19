@@ -39,7 +39,7 @@ Usage: hapi [opts] commands [job_name]
     def parse_options
       # initialize cmd_list. This seems hacky, but I like having the cmd_list
       # near the usage statement.
-      usage_msg 
+      usage_msg
       @options = {}
 
       OptionParser.new do |opts|
