@@ -1,26 +1,48 @@
-= atti_release
+= hapi
 
-* FIX (url)
+* github.com/bhenderson/hapi.git
 
 == DESCRIPTION:
 
-Rake tasks for updating your scm url and releasing your project
+Hudson interaction gem.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+=== Implemented:
+* Create new job
+
+=== Unimplemented:
+* Copy job
+* Build Que
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+See Hapi class documentation.
+  hud = Hapi.new "http://example.com"
+  hud.jobs # => Hapi::Jobs
+  
+  job = hud.jobs.find_by_name "project-main"
+  job.scm_url # => "https://subversion/project/branches/1.1"
+  job.scm_url = "https://subversion/project/branches/1.2"
+  job.update_scm! # => true
+  job.build!
+  
+  new_job = hud.add_job new_project_name
+  new_job.disabled? # => true
+  new_job.scm_url # => nil
+  new_job.scm_use :git/:svn, "http://svn/my_cool_repo/new_project_name/trunk"
+
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* see link:Rakefile
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* git clone http://github.com/bhenderson/hapi.git
+* cd hapi/
+* rake package
+* gem install pkg/hapi.gem
 
 == DEVELOPERS:
 
@@ -35,7 +57,7 @@ and generate the RDoc.
 
 (The MIT License)
 
-Copyright (c) 2010 FIX
+Copyright (c) 2010
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
