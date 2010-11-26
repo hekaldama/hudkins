@@ -1,4 +1,5 @@
-class Hapi::Jobs < Hapi::Common
+class Hapi::Jobs
+  include Hapi::Common
   include Enumerable
 
   def initialize(hapi)
@@ -11,8 +12,7 @@ class Hapi::Jobs < Hapi::Common
   end
 
   def inspect
-    # hide instance variables
-    foo_inspect + "@jobs=`#{@jobs.class}', ..."
+    super 
   end
 
   # Enumerable
@@ -25,10 +25,19 @@ class Hapi::Jobs < Hapi::Common
     end
   end
 
+  def names name = "."
+    select do |job|
+      job.name =~ Regexp.new(name, Regexp::IGNORECASE)
+    end.
+      map {|job| job.name}
+  end
+
   def method_missing sym, *args, &block
-    if iv = missing_method_test( sym )
-      self.find do |job|
-        job.send(iv).to_s =~ Regexp.union( args.map(&:to_s) )
+    meth, name = missing_method_name( sym )
+    if name
+      self.send(meth) do |job|
+        # gsub used so I can pass in symbols as names (which don't allow dashes
+        job.send(name).to_s.gsub(/-/, "_") =~ Regexp.union( args.map(&:to_s) )
       end
     else
       super sym, *args, &block
@@ -36,12 +45,13 @@ class Hapi::Jobs < Hapi::Common
   end
 
   def respond_to? sym
-    missing_method_test sym or super
+    missing_method_name sym or super sym
   end
 
   private
-    def missing_method_test sym
-      $1 if sym.to_s =~ /^find_by_(.*)/ and Hapi::Job.method_defined? $1
+    def missing_method_name sym
+      # (find|find_all)_by_(name|url|...)
+      [$1, $2] if sym.to_s =~ /^(.*)_by_(.*)$/ and Hapi::Job.method_defined? $2
     end
 
 end
