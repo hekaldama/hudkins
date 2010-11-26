@@ -5,7 +5,7 @@ class TestHapiJobs < MiniTest::Unit::TestCase
   def setup
     @host = "http://example.com"
     @hud = Hapi.new @host
-    @hud.stubs(:get).with("/api/json").returns( mock_jobs )
+    @hud.stubs(:get).with("/api/json").returns( mock_files.jobs )
     @jobs = Hapi::Jobs.new @hud
   end
 

@@ -3,9 +3,10 @@ require "hapi"
 
 class TestHapi < MiniTest::Unit::TestCase
   def setup
-    @host = "http://hudson.int.atti.com"
+    @host = "http://example.com"
     @hud = Hapi.new @host
-    @hud.expects(:get).at_least_once.with("/api/json").returns( mock_jobs )
+    RestClient::Resource.any_instance.expects(:get).once.returns( mock_files.jobs )
+    #@hud.stubs(:get).once.with("/api/json").returns( mock_files.jobs )
     @hud.jobs
   end
 
@@ -55,13 +56,13 @@ class TestHapi < MiniTest::Unit::TestCase
   end
 
   def test_parse_body_json
-    ret = @hud.parse_body mock_jobs
+    ret = @hud.parse_body mock_files.jobs
     assert_kind_of Hash, ret
     assert_equal "http://example.com/job/project_name/", ret["jobs"].first["url"]
   end
 
   def test_parse_body_xml
-    ret = @hud.parse_body mock_config
+    ret = @hud.parse_body mock_files.config
     assert_kind_of Nokogiri::XML::Document, ret
     assert_equal "https://subversion/project_name/branches/current_branch", ret.at("//scm//remote").content
   end

@@ -6,7 +6,7 @@ class TestHapiJob < MiniTest::Unit::TestCase
     @host = "http://hudson.int.atti.com"
     @data = {"name"=>"project_name", "url"=>"http://example.com/job/project_name/", "color"=>"blue"}
     @hud = Hapi.new @host
-    @hud.expects(:get).at_least_once.with("/api/json").returns( mock_jobs )
+    RestClient::Resource.any_instance.expects(:get).once.returns( mock_files.jobs )
     @jobs = @hud.jobs
     @job = @jobs.find_by_name "project_name"
   end
@@ -29,9 +29,10 @@ class TestHapiJob < MiniTest::Unit::TestCase
   end
 
   def test_config
-    @job.expects(:update_config).once.returns( "mock/config" )
+    @hud.expects(:get).once.returns( mock_files.config )
     @job.config
     @job.config
+    assert_kind_of Nokogiri::XML::Document, @job.config
   end
 
   # should we post if @config hasn't changed?
@@ -47,6 +48,7 @@ class TestHapiJob < MiniTest::Unit::TestCase
   end
 
   def test_scm_url
+    @hud.expects(:get).once.returns( mock_files.config )
     assert_equal "https://subversion/project_name/branches/current_branch", @job.scm_url
   end
 
