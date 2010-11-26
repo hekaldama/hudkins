@@ -27,6 +27,16 @@ class TestHapiJobs < MiniTest::Unit::TestCase
   def test_respond_to?
     @jobs.respond_to? "find_by_name"
     @jobs.respond_to? "find_by_url"
+    @jobs.respond_to? "each"
+  end
+
+  def test_create_new_job
+    RestClient::Resource.any_instance.expects(:post).returns( mock_files.new_job_json )
+    job = @hud.add_job :job_name
+    assert_kind_of Hapi::Job, job
+    assert job.disabled?, "new job must start disabled"
+    assert_nil job.scm_url, "new job must not have any scm_url"
+    assert_equal job, @hud.jobs.find_by_name( :job_name )
   end
 end
 
