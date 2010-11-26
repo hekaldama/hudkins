@@ -18,11 +18,11 @@ class TestHapi < MiniTest::Unit::TestCase
     #assert_kind_of Proc, Hapi::SETUP_PROC
   #end
 
-  def test_object_inspect
-    s = Hapi.object_inspect self, "foobar"
-    assert_kind_of String, s
-    assert_match /foobar/, s
-  end
+  #def test_object_inspect
+    #s = Hapi.object_inspect self, "foobar"
+    #assert_kind_of String, s
+    #assert_match /foobar/, s
+  #end
 
   def test_new
     assert_equal @host, @hud.host
@@ -48,11 +48,10 @@ class TestHapi < MiniTest::Unit::TestCase
   end
 
   def test_get_with_invalid_path
-    RestClient::Resource.any_instance.expects(:get).with( "/invalid/path", @hud.send(:get_default_options) ).raises( RestClient::ResourceNotFound )
-    @hud.get "/invalid/path" 
-    #assert_raises RestClient::ResourceNotFound do
-      #Hapi.new.get "/invalid/path"
-    #end
+    RestClient::Resource.any_instance.expects(:get).raises( RestClient::ResourceNotFound )
+    assert_raises RestClient::ResourceNotFound do
+      @hud.get "/invalid/path"
+    end
   end
 
   def test_parse_body_json
