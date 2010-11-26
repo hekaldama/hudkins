@@ -3,7 +3,8 @@
 require 'rubygems'
 require 'hoe'
 
-Hoe.spec 'atti_release' do
+Hoe.spec 'hapi' do
+  developer('Adam Avilla', 'aavilla@attinteractive.com')
   developer('Brian Henderson', 'bhenderson@attinteractive.com')
 end
 
