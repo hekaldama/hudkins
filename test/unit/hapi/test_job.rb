@@ -3,7 +3,7 @@ require "hapi"
 
 class TestHapiJob < MiniTest::Unit::TestCase
   def setup
-    @host = "http://hudson.int.atti.com"
+    @host = "http://example.com"
     @data = {"name"=>"project_name", "url"=>"http://example.com/job/project_name/", "color"=>"blue"}
     @hud = Hapi.new @host
     RestClient::Resource.any_instance.expects(:get).once.returns( mock_files.jobs )
