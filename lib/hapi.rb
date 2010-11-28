@@ -1,4 +1,3 @@
-require "rubygems" # TODO remove when gemified
 require "rest_client"
 require "json"
 require "nokogiri"
@@ -41,16 +40,6 @@ class Hapi
     @options = opts
     @resource = RestClient::Resource.new @host.to_s
     @resource_block = Proc.new {|*args| Response.new *args}
-  end
-
-  ##
-  # === Notes
-  # My Hudson server is not publicially accessible so when I can't connect,
-  # Socket#getaddrinfo (RestClient) times out after more than 20 seconds! I
-  # created a healper class Hapi::HostLookup to timeout Socket#getaddrinfo
-  # after Hapi::HostLookup#TIMEOUT seconds (defaults to 2).
-  def host_available?
-    HostLookup.available? @host, @options[:host_timeout]
   end
 
   ##
@@ -195,8 +184,13 @@ class Hapi
       File.read( File.join( File.dirname(__FILE__), "assets", "free_style_project.xml.erb"  ) )
     end
 
+    #def check_host_availability
+      #msg = "Your hudson host `%s' is unavailable." % [ host ]
+      #raise msg unless host_available?
+    #end
+
     def use_resource verb, path, data = nil, opts = {}, &block
-      raise "#{host} is unavailable" unless host_available?
+      check_host_availability
       # allow symbals
       new_resource = path.nil? ? @resource : @resource[path.to_s]
       args = [ send("#{verb}_default_options").merge( opts ) ]
