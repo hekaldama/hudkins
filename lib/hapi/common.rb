@@ -9,12 +9,13 @@ class Hapi
     end
 
     ##
+    # === Description
     # useful for escaping parameters to be sent to #get/#post
     #
-    # Examples:
-    #   +Hash+::  converts a simple one dimentional hash to a url parameter
-    #             query string and uri escapes it.
-    #   +else+::  converts to string and uri escapes it.
+    # === Parameters
+    # +Hash+::  converts a simple one dimentional hash to a url parameter
+    #           query string and uri escapes it.
+    # +else+::  converts to string and uri escapes it.
     def url_escape msg
       case msg
       when Hash then

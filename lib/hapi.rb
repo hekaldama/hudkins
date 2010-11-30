@@ -121,6 +121,7 @@ class Hapi
 
   ##
   # === Description
+  # TODO this needs cleaned up to be more like copy_job
   # Use remote api to create a new job.
   # Updates internal job list (Hapi#jobs) afterwards
   #

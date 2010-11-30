@@ -7,26 +7,29 @@
 
 class Hapi
   ##
-  # extend Hapi::Mixin to include DLS style methods
+  # extend Hapi::Mixin to include DSL style methods
   module Mixin
     ##
-    # Description
-    #   Similar to attr_reader but takes additional parameters
-    #   :bool type addes a method_name? alias
-    #   Also note that these methods will be undocumented
+    # === Description
+    # Similar to attr_reader but takes additional parameters
     #
-    # Examples:
+    # :bool type addes a method_name? alias
+    #
+    # === Examples:
     #   class MyObj
     #     attr_reader_from_config :disabled, "//project//disabled", :bool
     #   end
     #
     #   MyObj.new.disabled? # => true
     #
-    # Parameters:
+    # === Parameters:
     #
     # +method_name+::   attr_reader method name
     # +search_path+::   Nokogiri.at search path
     # +type+::          :default # => regular reader method
+    #
+    #                   :fixnum # => converts config content to integer
+    #
     #                   :bool    # => creates a boolean reader method. useful
     #                   when the config returns string "true" but True class is
     #                   desirable
@@ -50,9 +53,10 @@ class Hapi
     end
 
     ##
-    # Description:
-    #   see attr_reader_from_config
-    #   update config node
+    # === Description
+    # see attr_reader_from_config
+    #
+    # update config node
     def attr_writer_from_config method_name, search_path, type = :default
       define_method "#{method_name}=".to_sym do |arg|
         config.at(search_path).content = arg
@@ -62,10 +66,13 @@ class Hapi
     end
 
     ##
-    # Description:
-    #   see attr_reader_from_config
-    #   (optionally) update config node and immediately post back the config
-    #   `!' is added to end of method_name to signify post call
+    # === Description
+    # see attr_reader_from_config
+    #
+    # (optionally) update config node and immediately post back the config then
+    # return the updated value
+    #
+    # `!' is added to end of method_name to signify post call
     def attr_post_from_config method_name, search_path, type = :default
       attr_reader_from_config method_name, search_path, type unless self.respond_to? method_name
       define_method "#{method_name}!".to_sym do |arg|
@@ -77,7 +84,7 @@ class Hapi
     end
 
     ##
-    # combines attr_(reader|writer|post)_from_config
+    # combines attr_{reader,writer,post}_from_config
     def attr_accessor_from_config *args
       attr_reader_from_config *args
       attr_writer_from_config *args

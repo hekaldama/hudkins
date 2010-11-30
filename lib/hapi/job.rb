@@ -116,8 +116,8 @@ class Hapi::Job
   # name because I still wanted description to be an attr_accessor_from_config
   #
   # === Example
-  # job.quick_description! # => "this is the description for job"
-  # job.quick_description! = "this is the new desc." # => Response obj
+  #   job.quick_description! # => "this is the description for job"
+  #   job.quick_description! = "this is the new desc." # => Response obj
   def quick_description! msg = nil
     # another yuck!
     if msg

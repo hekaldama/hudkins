@@ -20,17 +20,23 @@ Hudson interaction gem.
 See Hapi class documentation.
   hud = Hapi.new "http://example.com"
   hud.jobs # => Hapi::Jobs
-  
+
   job = hud.jobs.find_by_name "project-main"
   job.scm_url # => "https://subversion/project/branches/1.1"
   job.scm_url = "https://subversion/project/branches/1.2"
-  job.update_scm! # => true
+  job.post_config! # => true
   job.build!
-  
+
   new_job = hud.add_job new_project_name
   new_job.disabled? # => true
   new_job.scm_url # => nil
   new_job.scm_use :git/:svn, "http://svn/my_cool_repo/new_project_name/trunk"
+
+  job = hud.jobs.find_by_name :job_name
+  job2 = job.copy new_name ||
+         hud.copy_job job, new_name
+  job2.scm_url = "http://svn/new/url"
+  job2.post_config!
 
 
 == REQUIREMENTS:
