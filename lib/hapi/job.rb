@@ -99,7 +99,7 @@ class Hapi::Job
   end
 
   def recreate!
-    @hapi.add_job name, config
+    hapi.add_job name, config
   end
 
   def disable!

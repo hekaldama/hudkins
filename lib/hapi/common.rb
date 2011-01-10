@@ -25,7 +25,13 @@ class Hapi
       end
     end
 
+    #--
     # these classes are being included in the @hapi class.
+    #++
+
+    def hapi
+      @hapi
+    end
 
     ##
     # accessor methods for child classes to get
