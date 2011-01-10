@@ -135,4 +135,23 @@ class Hapi::Job
       get( path + "/description" ).body
     end
   end
+
+  ##
+  # === Description
+  # Copy job to new_job_name
+  #
+  # === Example
+  #   new_job = job.copy "new-job-name"
+  #   new_job.scm_url = "http://svn/new/job/path"
+  #   new_job.post_config!
+  def copy new_job_name
+    # post /createItem?name=NEWJOBNAME&mode=copy&from=FROMJOBNAME
+    response = post "/createItem?" +
+      url_escape(:name => new_job_name, :mode => "copy", :from => name)
+    # return new job object
+    hapi.update_jobs.find_by_name new_job_name if response.success?
+  end
+
+  # not sure if we want this.
+  # alias_method :dup, :copy
 end

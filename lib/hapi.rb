@@ -159,6 +159,20 @@ class Hapi
 
   ##
   # === Description
+  # Copy a job
+  #
+  # === Examples
+  #   new_job = hud.copy_job "job-name", "new-job-name"
+  #
+  #   job = hud.find_by_name "job-name"
+  #   new_job = hud.copy_job job, "new-job-name"
+  def copy_job job, new_job
+    job = Hapi::Job === job ? job : jobs.find_by_name( job )
+    job.copy( new_job ) if job # find_by_name didn't return nil
+  end
+
+  ##
+  # === Description
   # Gets the hudson version the server is running
   #
   # === Examples
