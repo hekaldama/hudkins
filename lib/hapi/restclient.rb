@@ -62,14 +62,42 @@ class Hapi
     # was the response successful?
     # does a simple test if the response code was 2xx
     def success?
-      case code
-      when (200..299)
+      # I think RestClient::Response doesn't use Net::HTTP... any more, but I
+      # couldn't figure out how they want you to do this without doing case
+      # format or something like RestClient::Ok.. etc. (There is no equivalent
+      # RestClient::Success, although there is a RestClient::Redirect
+      case result
+      when Net::HTTPSuccess, Net::HTTPRedirection then
         true
       else
         false
       end
+      #case code
+      #when (200..299)
+        #true
+      #when (302) 
+        ## Found. seems to be status code for successful posts.. :/
+        #true
+      #else
+        #false
+      #end
     end
     # http_body.match(/<h1>Error<\/h1><p>([^<]*)<\/p>/)[0]
+
+    ##
+    # Hudson returns type :javascript for get "/api/json" even if I explicietly set the :accept header
+    # and :html for config.xml
+    # so I'm going to use the request headers to get the returned content type... blah
+
+    def response_type
+      # unbelievable hudson!
+      # this probably isn't the best way, but MIME::Types returns an array...
+      MIME::Type.new request.headers[:accept]
+    end
+
+    def type
+      response_type.sub_type.to_sym
+    end
   end
 
   # the idea behind this is that if the hudson server isn't available,
