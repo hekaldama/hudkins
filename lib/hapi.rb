@@ -39,7 +39,6 @@ class Hapi
     @host = URI.parse( ENV["hapi_host"] || host )
     @options = opts
     @resource = RestClient::Resource.new @host.to_s
-    @resource_block = Proc.new {|*args| Response.new *args}
   end
 
   ##
@@ -195,9 +194,16 @@ class Hapi
       # allow symbals
       new_resource = path.nil? ? @resource : @resource[path.to_s]
       args = [ send("#{verb}_default_options").merge( opts ) ]
-      block = (block || @resource_block)
-      args.unshift data if data
-      new_resource.send(verb, *args, &block)
+      # not sure how else to make this generic for both get and post
+      # maybe something like opts.delete :data
+      args.unshift data.to_s if data
+      new_resource.send(verb, *args, &(block || resource_block))
+    end
+
+    def resource_block
+      # restclient
+      # |response, request, result|
+      Proc.new {|*args| Response.new *args}
     end
 
     def parse_response response
