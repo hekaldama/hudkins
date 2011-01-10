@@ -34,12 +34,15 @@ class Hapi
     #                   when the config returns string "true" but True class is
     #                   desirable
     def attr_reader_from_config method_name, search_path, type = :default
+      # could we do something like inspect el.children.size? for arrays?
       define_method method_name do
         el = config.at(search_path)
         if el
           case type
           when :bool then
             /true/i === el.content
+          when :fixnum then
+            el.content.to_i
           else
             el.content
           end
@@ -60,7 +63,6 @@ class Hapi
     def attr_writer_from_config method_name, search_path, type = :default
       define_method "#{method_name}=".to_sym do |arg|
         config.at(search_path).content = arg
-        set_dirty_flag
         arg
       end
     end
