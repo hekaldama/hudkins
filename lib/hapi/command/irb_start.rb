@@ -68,8 +68,8 @@ class Hapi
   hud             => Hapi.new <hud_host>
   job [job_name]  => Hapi::Job
   job_name        => Hapi::Job
-  command:
-    #{cmd_list.join("\n  ")}
+  commands:
+    #{cmd_list.join("\n    ")}
 
       EOS
     end
