@@ -167,6 +167,17 @@ class Hapi
     get.response.headers[:x_hudson]
   end
 
+  def parse_string string, format
+    case format
+    when :xml then
+      Nokogiri::XML string
+    when :json then
+      JSON.parse string
+    else
+      raise "unsupported type #{format.inspect}"
+    end
+  end
+
   private
     def initialize_jobs
       Hapi::Jobs.new(self)
@@ -206,22 +217,34 @@ class Hapi
       Proc.new {|*args| Response.new *args}
     end
 
+    # body = @response.body, format = @response.format
     def parse_response response
+      # I debated on wether or not to push up the raise statement. But it seems like I might want to do a "get" even if it doesn't return a valid response whereas why would I want to parse an invalid response?
       raise response.result unless response.success?
-      body = response.body
+      body, format = response.body, response.type
       begin
-        case body
-        when /^\s*<\?xml/ then
-          Nokogiri::XML body
-        when /^\s*\{/ then
-          JSON.parse body
-        else
-          body
-        end
+        parse_string body, format
       rescue => e
-        raise "unparsable response. #{e.message}"
+        raise "unparsable response for #{response.request.url}.\n#{e.message}"
       end
     end
+
+    #def parse_response response
+      #raise response.result unless response.success?
+      #body = response.body
+      #begin
+        #case body
+        #when /^\s*<\?xml/ then
+          #Nokogiri::XML body
+        #when /^\s*\{/ then
+          #JSON.parse body
+        #else
+          #body
+        #end
+      #rescue => e
+        #raise "unparsable response. #{e.message}"
+      #end
+    #end
   # private
 end # Hapi
 
