@@ -42,6 +42,9 @@ class Hapi::Job
   ##
   # :attr_accessor: concurrent_builds
   attr_accessor_from_config :concurrent_builds,   "//project//concurrentBuild",                 :bool
+  attr_accessor_from_config :mail_recipients,     "//publishers//recipients"
+  # this is really an array. I haven't added functionality for that yet
+  attr_accessor_from_config :shell_builders,     "//builders/hudson.tasks.Shell"
 
 
   def initialize hapi, data
