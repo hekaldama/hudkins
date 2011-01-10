@@ -72,8 +72,17 @@ class Hapi::Job
   ##
   # === Description
   # get the job's config
-  def update_config
-    @config = @hapi.get_parsed( path + "/config.xml" )
+  # takes string (xml) or other's config
+  def update_config config = nil
+    config = case config
+    when String then
+      hapi.parse_string( config, :xml )
+    when Nokogiri::XML::Document, NilClass then
+      config
+    else
+      raise "unknown config type #{config.class}"
+    end
+    @config = config || hapi.get_parsed( path + "/config.xml", :accept => "application/xml" )
   end
 
   ##
