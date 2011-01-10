@@ -98,7 +98,7 @@ class Hapi
   # +opts+::  {:content => "text/plain"} (default)
   # +block+:: { optional return block for RestClient#get }
   def post path = nil, data = "", opts = {}, &block
-    use_resource :post, path, nil, opts, &block
+    use_resource :post, path, data, opts, &block
   end
 
   ##
