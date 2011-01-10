@@ -97,7 +97,6 @@ class Hapi::Job
   # Post the job's config back to the server to update it.
   def post_config!
     post path + "/config.xml", @config
-    update_config
   end
 
   def build!
@@ -105,9 +104,7 @@ class Hapi::Job
   end
 
   def delete!
-    # yuck!
-    ret = post path + "/doDelete"
-    ret
+    post path + "/doDelete"
   end
 
   def recreate!
