@@ -130,7 +130,8 @@ class Hapi
   # === Options
   # +job_name+::    String or Symbol used as the name of the new job.
   # +config_data+:: Uses provided template for bare-bones config, but
-  #                 optionally takes a string parameter.
+  #                 optionally takes a string parameter (such as xml from
+  #                 another job's config)
   #
   # === Notes
   # The remote api here is not fun. It uses HTTP#post instead of HTTP#create
@@ -208,11 +209,6 @@ class Hapi
     def new_config
       File.read( File.join( File.dirname(__FILE__), "assets", "free_style_project.xml.erb"  ) )
     end
-
-    #def check_host_availability
-      #msg = "Your hudson host `%s' is unavailable." % [ host ]
-      #raise msg unless host_available?
-    #end
 
     def use_resource verb, path, data = nil, opts = {}, &block
       check_host_availability
