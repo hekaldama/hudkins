@@ -15,18 +15,23 @@ Hudson interaction gem.
 * Copy job
 * Build Que
 
+* Hudson returns incorrect mime types!!! I've hacked it by setting response.type to the :accept header. This needs to be extracted out to dry up the code
+
 == SYNOPSIS:
 
 See Hapi class documentation.
   hud = Hapi.new "http://example.com"
   hud.jobs # => Hapi::Jobs
 
+=== Working with Jobs
+
   job = hud.jobs.find_by_name "project-main"
   job.scm_url # => "https://subversion/project/branches/1.1"
   job.scm_url = "https://subversion/project/branches/1.2"
-  job.post_config! # => true
+  job.post_config! # => Hapi::Response
   job.build!
 
+=== Creating new jobs
   new_job = hud.add_job new_project_name
   new_job.disabled? # => true
   new_job.scm_url # => nil
@@ -41,6 +46,7 @@ See Hapi class documentation.
 
 == REQUIREMENTS:
 
+* heavily built ontop of "https://github.com/archiloque/rest-client"
 * see link:Rakefile
 
 == INSTALL:
@@ -63,7 +69,7 @@ and generate the RDoc.
 
 (The MIT License)
 
-Copyright (c) 2010
+Copyright (c) 2011
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
