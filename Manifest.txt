@@ -19,9 +19,6 @@ lib/hapi/mixin.rb
 lib/hapi/rake.rb
 lib/hapi/restclient.rb
 lib/hapi/sysinfo.rb
-lib/tasks/ci.rake
-lib/tasks/hud.rake
-lib/tasks/scm.rake
 test/test_helper.rb
 test/unit/hapi/test_job.rb
 test/unit/hapi/test_jobs.rb

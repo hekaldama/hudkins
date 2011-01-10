@@ -1,6 +1,6 @@
 = hapi
 
-* github.com/bhenderson/hapi.git
+* http://github.com/bhenderson/hapi
 
 == DESCRIPTION:
 
