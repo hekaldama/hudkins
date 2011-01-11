@@ -3,10 +3,9 @@ require "hapi"
 
 class TestHapiJob < MiniTest::Unit::TestCase
   def setup
-    @host = "http://example.com"
     @data = {"name"=>"project_name", "url"=>"http://example.com/job/project_name/", "color"=>"blue"}
-    @hud = Hapi.new @host
-    RestClient::Resource.any_instance.expects(:get).once.returns( mock_files.jobs )
+    @host = "http://example.com"
+    hapi_setup
     @jobs = @hud.jobs
     @job = @jobs.find_by_name "project_name"
   end
@@ -23,13 +22,14 @@ class TestHapiJob < MiniTest::Unit::TestCase
 
   def test_update_config_updates_config_instance_variable
     @job.instance_variable_set "@config", nil
-    @hud.expects(:get_parsed).with( @job.path + "/config.xml" ).returns( "test/config" )
+    @hud.expects(:get_parsed).with( @job.path + "/config.xml", optionally(kind_of(Hash)) ).returns( "test/config" )
     @job.update_config
     assert_equal "test/config", @job.instance_variable_get( "@config" )
   end
 
   def test_config
-    @hud.expects(:get).once.returns( mock_files.config )
+    mock_rc_resource(:get, mock_files.config, :xml)
+    #@hud.expects(:get).once.returns( mock_files.config )
     @job.config
     @job.config
     assert_kind_of Nokogiri::XML::Document, @job.config
@@ -42,13 +42,12 @@ class TestHapiJob < MiniTest::Unit::TestCase
     # make sure we set @config
     @job.stubs(:update_config).returns( "mock/config" )
     @job.config
-    @hud.expects(:post).with( @job.path + "/config.xml", "mock/config" )
-    @job.expects(:update_config).once
+    @hud.expects(:post).with( @job.path + "/config.xml", "mock/config", optionally(kind_of(Hash)))
     @job.post_config!
   end
 
   def test_scm_url
-    @hud.expects(:get).once.returns( mock_files.config )
+    mock_rc_resource(:get, mock_files.config, :xml)
     assert_equal "https://subversion/project_name/branches/current_branch", @job.scm_url
   end
 

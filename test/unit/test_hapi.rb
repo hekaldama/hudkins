@@ -5,27 +5,14 @@ class TestHapi < MiniTest::Unit::TestCase
   def setup
     @host = "http://example.com"
     @hud = Hapi.new @host
-    RestClient::Resource.any_instance.expects(:get).once.returns( mock_files.jobs )
-    #@hud.stubs(:get).once.with("/api/json").returns( mock_files.jobs )
+    @mock_response = mock("response").responds_like(Hapi::Response.new 1,2,3)
+    @mock_response.stubs(:success?).returns(true)
+    mock_rc_resource(:get, mock_files.jobs, :json)
     @hud.jobs
   end
 
-  #def test_setup_proc
-    #refute Hapi.const_defined? "SETUP_PROC"
-    #Hapi.setup do
-      #"this is a block!"
-    #end
-    #assert_kind_of Proc, Hapi::SETUP_PROC
-  #end
-
-  #def test_object_inspect
-    #s = Hapi.object_inspect self, "foobar"
-    #assert_kind_of String, s
-    #assert_match /foobar/, s
-  #end
-
   def test_new
-    assert_equal @host, @hud.host
+    assert_equal @host, @hud.host.to_s
   end
 
   def test_jobs
@@ -40,42 +27,48 @@ class TestHapi < MiniTest::Unit::TestCase
   end
 
   def test_get
-    RestClient::Resource.any_instance.expects(:get).once.returns( "path/info" )
+    mock_rc_resource(:get)
     assert Hapi.new.get( "/my/path" ), "hapi.get should return true"
-    assert_raises ArgumentError do 
-      Hapi.new.get
-    end
   end
 
   def test_get_with_invalid_path
-    RestClient::Resource.any_instance.expects(:get).raises( RestClient::ResourceNotFound )
+    mock_rc_resource(:get) {|rc| rc.raises( RestClient::ResourceNotFound ) }
+    #RestClient::Resource.any_instance.expects(:get).raises( RestClient::ResourceNotFound )
     assert_raises RestClient::ResourceNotFound do
       @hud.get "/invalid/path"
     end
   end
 
-  def test_parse_body_json
-    ret = @hud.parse_body mock_files.jobs
+  def test_parse_string_json
+    ret = @hud.parse_string mock_files.jobs, :json
     assert_kind_of Hash, ret
     assert_equal "http://example.com/job/project_name/", ret["jobs"].first["url"]
   end
 
-  def test_parse_body_xml
-    ret = @hud.parse_body mock_files.config
+  def test_parse_string_xml
+    ret = @hud.parse_string mock_files.config, :xml
     assert_kind_of Nokogiri::XML::Document, ret
     assert_equal "https://subversion/project_name/branches/current_branch", ret.at("//scm//remote").content
   end
 
   def test_post
-    RestClient::Resource.any_instance.expects(:post).once
+    mock_rc_resource(:post)
     @hud.post "/my/path", "data"
   end
 
   def test_post_failure
-    RestClient::Resource.any_instance.expects(:post).once.raises( RestClient::Exception.new )
+    mock_rc_resource(:post) {|rc| rc.raises( RestClient::Exception.new ) }
     assert_raises RestClient::Exception do 
       @hud.post "/my/path", "bad_data"
     end
   end
 
+  #def test_create_new_job
+    #mock_rc_resource(:post, mock_files.new_job_json, :xml)
+    #job = @hud.add_job :job_name
+    #assert_kind_of Hapi::Job, job
+    #assert job.disabled?, "new job must start disabled"
+    #assert_nil job.scm_url, "new job must not have any scm_url"
+    #assert_equal job, @hud.jobs.find_by_name( :job_name )
+  #end
 end

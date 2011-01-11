@@ -1,3 +1,4 @@
+require "rubygems"
 require 'minitest/unit'
 require "mocha"
 require "ruby-debug"
@@ -25,5 +26,26 @@ class MiniTest::Unit::TestCase
       obj
     end
   end # mock_files
+
+  def hapi_setup
+    @host = "http://example.com"
+    @hud = Hapi.new @host
+    @mock_response = mock("response").responds_like(Hapi::Response.new 1,2,3)
+    @mock_response.stubs(:success?).returns(true)
+    mock_rc_resource(:get, mock_files.jobs, :json)
+    @hud.jobs
+  end
+
+  def mock_rc_resource method, body = nil, type = nil
+    @mock_response.stubs(:body).returns(body) if body
+    @mock_response.stubs(:type).returns(type) if type
+    rc_request = RestClient::Request.expects(:execute).with(has_entry(:method => method))
+    if block_given?
+      yield(rc_request)
+    else
+      rc_request.returns( @mock_response )
+    end
+  end
+
 
 end # MiniTest::Unit::TestCase
