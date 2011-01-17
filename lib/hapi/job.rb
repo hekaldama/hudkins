@@ -24,6 +24,8 @@ class Hapi::Job
 
   attr_reader :name, :url, :color, :path, :config
 
+  #TODO figure out how to define a custom rdoc method to correctly document these
+
   ##
   # :attr_accessor: scm_url
   attr_accessor_from_config :scm_url,             "//scm//remote"
@@ -44,8 +46,17 @@ class Hapi::Job
   attr_accessor_from_config :concurrent_builds,   "//project//concurrentBuild",                 :bool
   attr_accessor_from_config :mail_recipients,     "//publishers//recipients"
   # this is really an array. I haven't added functionality for that yet
-  attr_accessor_from_config :shell_builders,     "//builders/hudson.tasks.Shell"
-
+  attr_accessor_from_config :shell_builders,     "//builders/hudson.tasks.Shell",               :array
+  ##
+  # :attr_accessor: :rotate_logs_num
+  # Number of builds to keep
+  # -1 == infinite
+  attr_accessor_from_config :rotate_logs_num,     "//logRotator/numToKeep",                     :int
+  ##
+  # :attr_accessor: :rotate_logs_days
+  # Number of days to keep builds
+  # -1 == infinite
+  attr_accessor_from_config :rotate_logs_days,    "//logRotator/daysToKeep",                    Integer
 
   def initialize hapi, data
     @hapi = hapi
