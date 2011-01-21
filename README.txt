@@ -8,10 +8,16 @@ Hudson interaction gem.
 
 == FEATURES/PROBLEMS:
 
+* so far this is mostly for inspection of current jobs. There are quite a few
+  options in hudson for creating a new job and these haven't been implemented
+  yet.
+
 === Implemented:
+
 * Create new job
 
 === Unimplemented:
+
 * Copy job
 * Build Que
 
@@ -32,6 +38,7 @@ See Hapi class documentation.
   job.build!
 
 === Creating new jobs
+
   new_job = hud.add_job new_project_name
   new_job.disabled? # => true
   new_job.scm_url # => nil

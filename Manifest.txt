@@ -13,6 +13,7 @@ lib/hapi/command.rb
 lib/hapi/command/exec.rb
 lib/hapi/command/irb_start.rb
 lib/hapi/common.rb
+lib/hapi/errors.rb
 lib/hapi/job.rb
 lib/hapi/jobs.rb
 lib/hapi/mixin.rb
