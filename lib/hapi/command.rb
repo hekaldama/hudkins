@@ -51,7 +51,7 @@ Usage: hapi [opts] commands [job_name]
 
 
   Optional:   job_name (depends on command)
-    may also be partial (picks first that matches)
+    may also be partial (picks first match)
 
       EOB
     end
