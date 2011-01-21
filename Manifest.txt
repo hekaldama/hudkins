@@ -20,6 +20,9 @@ lib/hapi/mixin.rb
 lib/hapi/rake.rb
 lib/hapi/restclient.rb
 lib/hapi/sysinfo.rb
+test/fixtures/config.erb
+test/fixtures/jobs.erb
+test/fixtures/new_project_config.erb
 test/test_helper.rb
 test/unit/hapi/test_job.rb
 test/unit/hapi/test_jobs.rb
