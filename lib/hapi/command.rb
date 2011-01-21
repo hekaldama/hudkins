@@ -10,6 +10,10 @@ require "yaml"
 #
 # === Usage
 # see `hapi -h'
+#
+# a host option is required. Can be configured in env variable +hapi_host+ or
+# config file. all options can be specified in a yaml file in +~/.hapirc+
+# and/or +`pwd`/.hapirc+
 class Hapi::Command
   include Hapi::Common
 

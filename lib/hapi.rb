@@ -260,3 +260,4 @@ end # Hapi
 
 require "hapi/jobs"
 require "hapi/job"
+require "hapi/errors"

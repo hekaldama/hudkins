@@ -63,10 +63,15 @@ class Hapi
       @job
     end
 
+    # could probably be cleaned up
     def required_params values
+      e = Hapi::ArgumentError.new ""
+      raize = false
       values.each do |k,msg|
-        raise ArgumentError, msg unless k
+        e << msg unless k
+        raize = true unless k
       end
+      raise e if raize
     end
 
     def cmd_list
@@ -90,22 +95,18 @@ class Hapi
     end
 
     def load_rc
-      ret = {}
-      hapi_rc.each do |rc|
+      hapi_rc.inject({}) do |ret, rc|
         h = YAML.load_file( rc )
-        case h
-        when Hash then
-          ret.merge! YAML.load_file( rc )
-        end
+        ret.merge! h if h
+        ret
       end
-      ret
     end
 
     def hapi_rc
       [
         File.expand_path("~/.hapirc"),
-        File.join(Dir.pwd, "hapirc")
-      ].select {|f| File.exists? f}
+        File.join(Dir.pwd, ".hapirc")
+      ].select {|f| File.size? f} # exists and is non 0
     end
 
   end
