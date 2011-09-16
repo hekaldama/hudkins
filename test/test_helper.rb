@@ -1,7 +1,6 @@
 require "rubygems"
 require 'minitest/unit'
 require "mocha"
-require "ruby-debug"
 require "ostruct"
 require "erb"
 MiniTest::Unit.autorun

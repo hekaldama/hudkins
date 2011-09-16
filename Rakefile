@@ -16,7 +16,6 @@ Hoe.spec 'hudkins' do
 
   extra_dev_deps << [ "minitest",      "~> 1.7.2"]
   extra_dev_deps << [ "mocha",         "~> 0.9.8"]
-  #extra_dev_deps << [ "ruby-debug",    "~> 0.10.13"]
 end
 
 
