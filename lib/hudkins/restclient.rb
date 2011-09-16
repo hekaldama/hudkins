@@ -1,9 +1,9 @@
-class Hapi
+class Hudkins
   ##
   # === Description
   # Convenience class for RestClient responses
   #
-  # RestClient.get returns (configurable via &block parameter to Hapi#get)
+  # RestClient.get returns (configurable via &block parameter to Hudkins#get)
   # [#response, #request, #result]. I wanted to have all these available but
   # not as an array :/
   #
@@ -19,9 +19,9 @@ class Hapi
     ##
     # === Example
     # hud.get("/path") do |*args|
-    #   Hapi::Response.new( *args )
+    #   Hudkins::Response.new( *args )
     # end
-    # # => returns Hapi::Response object
+    # # => returns Hudkins::Response object
     def initialize response, request, result
       @response = response
       @request = request

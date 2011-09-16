@@ -1,17 +1,17 @@
 require "test/test_helper"
-require "hapi"
+require "hudkins"
 
-class TestHapiJob < MiniTest::Unit::TestCase
+class TestHudkinsJob < MiniTest::Unit::TestCase
   def setup
     @data = {"name"=>"project_name", "url"=>"http://example.com/job/project_name/", "color"=>"blue"}
     @host = "http://example.com"
-    hapi_setup
+    hudkins_setup
     @jobs = @hud.jobs
     @job = @jobs.find_by_name "project_name"
   end
 
   def test_new
-    job = Hapi::Job.new @hud, @data
+    job = Hudkins::Job.new @hud, @data
     assert_equal %q(/job/project_name/), job.path
   end
 

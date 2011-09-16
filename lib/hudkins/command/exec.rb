@@ -1,4 +1,4 @@
-class Hapi
+class Hudkins
   ##
   # === Description
   # mixin for interacting with the lib
@@ -40,13 +40,13 @@ class Hapi
       puts <<-EOS
 
   ---
-  Welcome to hapi irb console.
-  type hapi for help.
+  Welcome to hudkins irb console.
+  type hudkins for help.
 
       EOS
-      require "hapi/command/irb_start"
+      require "hudkins/command/irb_start"
       # turn job names into methods
-      extend Hapi::Command::Irb
+      extend Hudkins::Command::Irb
       IRB.start_session(nil, binding)
     end
 
@@ -65,7 +65,7 @@ class Hapi
 
     # could probably be cleaned up
     def required_params values
-      e = Hapi::ArgumentError.new ""
+      e = Hudkins::ArgumentError.new ""
       raize = false
       values.each do |k,msg|
         e << msg unless k
@@ -87,7 +87,7 @@ class Hapi
     end
 
     def hud_host
-      ENV["hapi_host"] || config[:host] || raise_usage( "no hapi_host defined." )
+      ENV["hudkins_host"] || config[:host] || raise_usage( "no hudkins_host defined." )
     end
 
     def config
@@ -95,17 +95,17 @@ class Hapi
     end
 
     def load_rc
-      hapi_rc.inject({}) do |ret, rc|
+      hudkins_rc.inject({}) do |ret, rc|
         h = YAML.load_file( rc )
         ret.merge! h if h
         ret
       end
     end
 
-    def hapi_rc
+    def hudkins_rc
       [
-        File.expand_path("~/.hapirc"),
-        File.join(Dir.pwd, ".hapirc")
+        File.expand_path("~/.hudkinsrc"),
+        File.join(Dir.pwd, ".hudkinsrc")
       ].select {|f| File.size? f} # exists and is non 0
     end
 

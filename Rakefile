@@ -5,7 +5,9 @@ require 'hoe'
 
 Hoe.plugin :isolate
 
-Hoe.spec 'hapi' do
+$:.unshift './'
+
+Hoe.spec 'hudkins' do
   developer('Brian Henderson', 'bhenderson@attinteractive.com')
 
   extra_deps << [ "json",              "~> 1.4.6"]
@@ -18,6 +20,6 @@ Hoe.spec 'hapi' do
 end
 
 
-require "lib/hapi/rake"
+require "lib/hudkins/rake"
 
 # vim: syntax=ruby

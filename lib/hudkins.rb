@@ -2,48 +2,48 @@ require "rest_client"
 require "json"
 require "nokogiri"
 
-require "hapi/restclient"
-require "hapi/mixin"
-require "hapi/common"
+require "hudkins/restclient"
+require "hudkins/mixin"
+require "hudkins/common"
 
 ##
 # === Description
 # Primary class used to interact with your Hudson server
 #
 # === Examples
-#   hud = Hapi.new "http://my-hudson.localdomain.com:8080"
-#   hud.jobs # => Hapi::Jobs
+#   hud = Hudkins.new "http://my-hudson.localdomain.com:8080"
+#   hud.jobs # => Hudkins::Jobs
 #   job = hud.jobs.find_by_name :job_name
 #
 # == Command Line
 #   There is an included binary for doing simple commands.
-#   See Hapi::Command#run_start_irb for a powerful way to interact with your
+#   See Hudkins::Command#run_start_irb for a powerful way to interact with your
 #   hudson server at an irb cmd prompt.
 #
-class Hapi
-  include Hapi::Common
+class Hudkins
+  include Hudkins::Common
   VERSION = '0.1.0'
 
   attr_reader :host, :resource
 
   ##
   # === Examples
-  #   Hapi.new <host_name> [opts]
+  #   Hudkins.new <host_name> [opts]
   #
   #   <host_name> will be URI parsed
   #
   # === Options
-  # +host_timeout+::  number of seconds to timeout trying to connect to the server. see Hapi#host_available?
+  # +host_timeout+::  number of seconds to timeout trying to connect to the server. see Hudkins#host_available?
   #
   def initialize(host = "http://example.com", opts = {})
-    @host = URI.parse( ENV["hapi_host"] || host )
+    @host = URI.parse( ENV["hudkins_host"] || host )
     @options = opts
     @resource = RestClient::Resource.new @host.to_s
   end
 
   ##
   # === Description
-  # Reset what Hapi#host is after initialization. Also updates Hapi#reset_resource.
+  # Reset what Hudkins#host is after initialization. Also updates Hudkins#reset_resource.
   def host= host_name
     @host = URI.parse host_name
     # reinitialize @resource
@@ -52,16 +52,16 @@ class Hapi
 
   ##
   # === Description
-  # Update Hapi#resource with new host name.
+  # Update Hudkins#resource with new host name.
   def reset_resource= uri = host, opts = {}
     @resource = RestClient::Resource.new( uri.to_s, opts)
   end
 
   ##
   # === Description
-  # Access to internal list of jobs. see Hapi::Jobs
+  # Access to internal list of jobs. see Hudkins::Jobs
   #
-  # One inital api call is made and then cached. See Hapi#initialize_jobs
+  # One inital api call is made and then cached. See Hudkins#initialize_jobs
   def jobs
     @jobs ||= initialize_jobs
   end
@@ -77,7 +77,7 @@ class Hapi
   ##
   # === Description
   # Available to make arbitrary HTTP/get calls to the server.
-  # Returns an Hapi::Response object. (see that class for reasoning.)
+  # Returns an Hudkins::Response object. (see that class for reasoning.)
   #
   # === Parameters
   # +path+::  "/path/to/resource"
@@ -122,7 +122,7 @@ class Hapi
   # === Description
   # TODO this needs cleaned up to be more like copy_job
   # Use remote api to create a new job.
-  # Updates internal job list (Hapi#jobs) afterwards
+  # Updates internal job list (Hudkins#jobs) afterwards
   #
   # === Example
   #   hud.add_job :job_name, "<?xml..>"
@@ -168,7 +168,7 @@ class Hapi
   #   job = hud.find_by_name "job-name"
   #   new_job = hud.copy_job job, "new-job-name"
   def copy_job job, new_job
-    job = Hapi::Job === job ? job : jobs.find_by_name( job )
+    job = Hudkins::Job === job ? job : jobs.find_by_name( job )
     job.copy( new_job ) if job # find_by_name didn't return nil
   end
 
@@ -195,7 +195,7 @@ class Hapi
 
   private
     def initialize_jobs
-      Hapi::Jobs.new(self)
+      Hudkins::Jobs.new(self)
     end
 
     def get_default_options
@@ -256,8 +256,8 @@ class Hapi
       #end
     #end
   # private
-end # Hapi
+end # Hudkins
 
-require "hapi/jobs"
-require "hapi/job"
-require "hapi/errors"
+require "hudkins/jobs"
+require "hudkins/job"
+require "hudkins/errors"

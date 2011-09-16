@@ -1,6 +1,6 @@
-= hapi
+= hudkins
 
-* http://github.com/bhenderson/hapi
+* http://github.com/bhenderson/hudkins
 
 == DESCRIPTION:
 
@@ -25,16 +25,16 @@ Hudson interaction gem.
 
 == SYNOPSIS:
 
-See Hapi class documentation.
-  hud = Hapi.new "http://example.com"
-  hud.jobs # => Hapi::Jobs
+See Hudkins class documentation.
+  hud = Hudkins.new "http://example.com"
+  hud.jobs # => Hudkins::Jobs
 
 === Working with Jobs
 
   job = hud.jobs.find_by_name "project-main"
   job.scm_url # => "https://subversion/project/branches/1.1"
   job.scm_url = "https://subversion/project/branches/1.2"
-  job.post_config! # => Hapi::Response
+  job.post_config! # => Hudkins::Response
   job.build!
 
 === Creating new jobs
@@ -58,10 +58,10 @@ See Hapi class documentation.
 
 == INSTALL:
 
-* git clone http://github.com/bhenderson/hapi.git
-* cd hapi/
+* git clone http://github.com/bhenderson/hudkins.git
+* cd hudkins/
 * rake package
-* gem install pkg/hapi.gem
+* gem install pkg/hudkins.gem
 
 == DEVELOPERS:
 

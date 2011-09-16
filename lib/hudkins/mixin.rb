@@ -5,9 +5,9 @@
 # attr_writer_from_config :method_name, "search_path"[, type]
 #++
 
-class Hapi
+class Hudkins
   ##
-  # extend Hapi::Mixin to include DSL style methods
+  # extend Hudkins::Mixin to include DSL style methods
   module Mixin
     ##
     # === Description

@@ -1,14 +1,14 @@
 require "test/test_helper"
-require "hapi"
+require "hudkins"
 
-class TestHapiJobs < MiniTest::Unit::TestCase
+class TestHudkinsJobs < MiniTest::Unit::TestCase
   def setup
-    hapi_setup
+    hudkins_setup
     @jobs = @hud.jobs
   end
 
   def test_new
-    assert_kind_of Hapi::Jobs, @jobs
+    assert_kind_of Hudkins::Jobs, @jobs
     assert_kind_of Enumerable, @jobs, "must extend enumerable."
   end
 

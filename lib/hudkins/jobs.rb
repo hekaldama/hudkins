@@ -1,16 +1,16 @@
-class Hapi
+class Hudkins
   # this class is just a convenience wrapper around an array of jobs.
-  # _FIX_ consider that Enumerable methods returns a Hapi::Jobs obj instead of an array..
+  # _FIX_ consider that Enumerable methods returns a Hudkins::Jobs obj instead of an array..
   class Jobs
-    include Hapi::Common
+    include Hudkins::Common
     include Enumerable
 
-    def initialize(hapi)
-      @hapi = hapi
-      data = @hapi.get_parsed( "/api/json", :accept => "application/json" )
+    def initialize(hudkins)
+      @hudkins = hudkins
+      data = @hudkins.get_parsed( "/api/json", :accept => "application/json" )
       @jobs = Array.new
       data["jobs"].each do |job|
-        @jobs << Hapi::Job.new( @hapi, job )
+        @jobs << Hudkins::Job.new( @hudkins, job )
       end
     end
 
@@ -79,7 +79,7 @@ class Hapi
     private
       def missing_method_name sym # :nodoc:
         # (find|find_all)_by_(name|url|...)
-        [$1, $2] if sym.to_s =~ /^(.*)_by_(.*)$/ and Hapi::Job.method_defined? $2
+        [$1, $2] if sym.to_s =~ /^(.*)_by_(.*)$/ and Hudkins::Job.method_defined? $2
       end
 
   end

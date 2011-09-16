@@ -27,10 +27,10 @@ class MiniTest::Unit::TestCase
     end
   end # mock_files
 
-  def hapi_setup
+  def hudkins_setup
     @host = "http://example.com"
-    @hud = Hapi.new @host
-    @mock_response = mock("response").responds_like(Hapi::Response.new 1,2,3)
+    @hud = Hudkins.new @host
+    @mock_response = mock("response").responds_like(Hudkins::Response.new 1,2,3)
     @mock_response.stubs(:success?).returns(true)
     mock_rc_resource(:get, mock_files.jobs, :json)
     @hud.jobs

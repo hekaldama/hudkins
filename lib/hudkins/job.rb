@@ -2,7 +2,7 @@
 # Primary class for interacting with a Hudson job
 #
 # === Examples
-#   hud = Hapi.new "http://hudson.com"
+#   hud = Hudkins.new "http://hudson.com"
 #   job = hud.jobs.find_by_name :job_name
 #
 #   job.disabled? # => true
@@ -12,13 +12,13 @@
 # === attr_accessor_from_config methods
 #
 # I created custom attr_accessor like DSL methods that create accessor like
-# methods for the Hapi::Job object to easily interact with the xml config.
+# methods for the Hudkins::Job object to easily interact with the xml config.
 # Paradigm is to use method_name? for boolean values and method_name! for any
 # methods that post updates to the server.
 #
-class Hapi::Job
-  include Hapi::Common
-  extend Hapi::Mixin
+class Hudkins::Job
+  include Hudkins::Common
+  extend Hudkins::Mixin
 
   include Comparable
 
@@ -58,8 +58,8 @@ class Hapi::Job
   # -1 == infinite
   attr_accessor_from_config :rotate_logs_days,    "//logRotator/daysToKeep",                    Integer
 
-  def initialize hapi, data
-    @hapi = hapi
+  def initialize hudkins, data
+    @hudkins = hudkins
     @name = data["name"]
     @url = URI.parse data["url"]
     @color = data["color"]
@@ -87,13 +87,13 @@ class Hapi::Job
   def update_config config = nil
     config = case config
     when String then
-      hapi.parse_string( config, :xml )
+      hudkins.parse_string( config, :xml )
     when Nokogiri::XML::Document, NilClass then
       config
     else
       raise "unknown config type #{config.class}"
     end
-    @config = config || hapi.get_parsed( path + "/config.xml", :accept => "application/xml" )
+    @config = config || hudkins.get_parsed( path + "/config.xml", :accept => "application/xml" )
   end
 
   ##
@@ -119,7 +119,7 @@ class Hapi::Job
   end
 
   def recreate!
-    hapi.add_job name, config
+    hudkins.add_job name, config
   end
 
   def disable!
@@ -160,7 +160,7 @@ class Hapi::Job
     response = post "/createItem?" +
       url_escape(:name => new_job_name, :mode => "copy", :from => name)
     # return new job object
-    hapi.update_jobs.find_by_name new_job_name if response.success?
+    hudkins.update_jobs.find_by_name new_job_name if response.success?
   end
 
   # not sure if we want this.

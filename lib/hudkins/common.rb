@@ -1,4 +1,4 @@
-class Hapi
+class Hudkins
   # common methods available for all classes
   module Common
 
@@ -26,23 +26,23 @@ class Hapi
     end
 
     #--
-    # these classes are being included in the @hapi class.
+    # these classes are being included in the @hudkins class.
     #++
 
-    def hapi
-      @hapi
+    def hudkins
+      @hudkins
     end
 
     ##
     # accessor methods for child classes to get
     def get *args
-      @hapi.get *args
+      @hudkins.get *args
     end
 
     ##
     # accessor methods for child classes to post
     def post *args
-      @hapi.post *args
+      @hudkins.post *args
     end
 
     ##
@@ -50,8 +50,8 @@ class Hapi
     # === Notes
     # My Hudson server is not publicially accessible so when I can't connect,
     # Socket#getaddrinfo (RestClient) times out after more than 20 seconds! I
-    # created a healper class Hapi::HostLookup to timeout Socket#getaddrinfo
-    # after Hapi::HostLookup#TIMEOUT seconds (defaults to 2).
+    # created a healper class Hudkins::HostLookup to timeout Socket#getaddrinfo
+    # after Hudkins::HostLookup#TIMEOUT seconds (defaults to 2).
     def host_available?
       HostLookup.available? @host, @options[:host_timeout]
     end

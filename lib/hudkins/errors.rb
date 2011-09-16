@@ -1,4 +1,4 @@
-class Hapi
+class Hudkins
   class ArgumentError < ::ArgumentError
     def << (msg)
       self.message << "\n" + msg

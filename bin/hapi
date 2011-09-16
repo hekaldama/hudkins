@@ -1,5 +1,0 @@
-#!/user/bin/env ruby
-
-require "hapi/command"
-
-Hapi::Command.run

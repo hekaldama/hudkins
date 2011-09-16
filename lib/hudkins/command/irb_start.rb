@@ -28,12 +28,12 @@ module IRB # :nodoc:
   end
 end
 
-class Hapi
+class Hudkins
   module Command::Irb
 
     ##
     # In the irb console I want to access the same commands as
-    # Hapi::Command::Exec but without the `run_' part.
+    # Hudkins::Command::Exec but without the `run_' part.
     def self.extend_object obj # :doc:
       # in IRB allow run_* commands to be exec without `run_'
       obj.command_list.each do |cmd|
@@ -59,15 +59,15 @@ class Hapi
 
     ##
     # help method in irb console
-    def hapi
+    def hudkins
       puts <<-EOS
 
-  self is Hapi::Command
-  hapi            => This help message
+  self is Hudkins::Command
+  hudkins            => This help message
   reload!         => reload lib
-  hud             => Hapi.new <hud_host>
-  job [job_name]  => Hapi::Job
-  job_name        => Hapi::Job
+  hud             => Hudkins.new <hud_host>
+  job [job_name]  => Hudkins::Job
+  job_name        => Hudkins::Job
   commands:
     #{cmd_list.join("\n    ")}
 
@@ -77,10 +77,10 @@ class Hapi
     ##
     # helper method in irb console to reload all the lib files.
     def reload!
-      $".grep( /hapi/ ).each do |f|
+      $".grep( /hudkins/ ).each do |f|
         load f
       end
       nil
     end
   end # Command::Irb
-end # Hapi
+end # Hudkins

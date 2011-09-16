@@ -1,4 +1,4 @@
-require "hapi"
+require "hudkins"
 require "optparse"
 require "yaml"
 
@@ -6,20 +6,20 @@ require "yaml"
 # === Description
 # Main class for the included bin to interact with Hudson at the command line.
 #
-# The Commands are setup in Hapi::Command::Exec
+# The Commands are setup in Hudkins::Command::Exec
 #
 # === Usage
-# see `hapi -h'
+# see `hudkins -h'
 #
-# a host option is required. Can be configured in env variable +hapi_host+ or
-# config file. all options can be specified in a yaml file in +~/.hapirc+
-# and/or +`pwd`/.hapirc+
-class Hapi::Command
-  include Hapi::Common
+# a host option is required. Can be configured in env variable +hudkins_host+ or
+# config file. all options can be specified in a yaml file in +~/.hudkinsrc+
+# and/or +`pwd`/.hudkinsrc+
+class Hudkins::Command
+  include Hudkins::Common
 
-  require "hapi/command/exec"
+  require "hudkins/command/exec"
   # all the run_ commands
-  extend Hapi::Command::Exec
+  extend Hudkins::Command::Exec
 
   class << self
     def run
@@ -40,7 +40,7 @@ class Hapi::Command
     def usage_msg
       usage = <<-EOB
 
-Usage: hapi [opts] commands [job_name]
+Usage: hudkins [opts] commands [job_name]
 
   Commands:   unambiguous_partial_command
   build:    start a job building.
@@ -88,7 +88,7 @@ Usage: hapi [opts] commands [job_name]
         opts.separator "Common options:"
 
         opts.on_tail("--version", "Show version") do
-          puts "Hapi (#{Hapi::VERSION}) (c) 2010"
+          puts "Hudkins (#{Hudkins::VERSION}) (c) 2010"
           exit
         end
 
@@ -104,7 +104,7 @@ Usage: hapi [opts] commands [job_name]
       @command, @job_name = ARGV.shift(2)
       @command ||= "default"
 
-      @hud = Hapi.new hud_host
+      @hud = Hudkins.new hud_host
       job @job_name
 
       parse_command

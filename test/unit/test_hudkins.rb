@@ -1,11 +1,11 @@
 require "test/test_helper"
-require "hapi"
+require "hudkins"
 
-class TestHapi < MiniTest::Unit::TestCase
+class TestHudkins < MiniTest::Unit::TestCase
   def setup
     @host = "http://example.com"
-    @hud = Hapi.new @host
-    @mock_response = mock("response").responds_like(Hapi::Response.new 1,2,3)
+    @hud = Hudkins.new @host
+    @mock_response = mock("response").responds_like(Hudkins::Response.new 1,2,3)
     @mock_response.stubs(:success?).returns(true)
     mock_rc_resource(:get, mock_files.jobs, :json)
     @hud.jobs
@@ -17,18 +17,18 @@ class TestHapi < MiniTest::Unit::TestCase
 
   def test_jobs
     # already initialized.
-    Hapi::Jobs.expects(:new).never
+    Hudkins::Jobs.expects(:new).never
     @hud.jobs
   end
 
   def test_update_jobs
-    Hapi::Jobs.expects(:new).once
+    Hudkins::Jobs.expects(:new).once
     @hud.update_jobs
   end
 
   def test_get
     mock_rc_resource(:get)
-    assert Hapi.new.get( "/my/path" ), "hapi.get should return true"
+    assert Hudkins.new.get( "/my/path" ), "hudkins.get should return true"
   end
 
   def test_get_with_invalid_path
@@ -66,7 +66,7 @@ class TestHapi < MiniTest::Unit::TestCase
   #def test_create_new_job
     #mock_rc_resource(:post, mock_files.new_job_json, :xml)
     #job = @hud.add_job :job_name
-    #assert_kind_of Hapi::Job, job
+    #assert_kind_of Hudkins::Job, job
     #assert job.disabled?, "new job must start disabled"
     #assert_nil job.scm_url, "new job must not have any scm_url"
     #assert_equal job, @hud.jobs.find_by_name( :job_name )
