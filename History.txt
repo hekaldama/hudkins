@@ -1,6 +1,6 @@
-=== 1.0.0 / 2010-10-26
+=== 0.0.1 / 2011-09-16
 
 * 1 major enhancement
 
-  * Birthday!
+  * Ported hapi repo to hudkins for public release.
 

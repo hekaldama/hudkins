@@ -22,7 +22,7 @@ require "hudkins/common"
 #
 class Hudkins
   include Hudkins::Common
-  VERSION = '0.1.0'
+  VERSION = '0.0.1'
 
   attr_reader :host, :resource
 
