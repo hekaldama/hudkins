@@ -10,8 +10,8 @@ $:.unshift './'
 Hoe.spec 'hudkins' do
   developer('Brian Henderson', 'bhenderson@attinteractive.com')
 
-  extra_deps << [ "json",              "~> 1.4.6"]
-  extra_deps << [ "nokogiri",          "~> 1.4.3"]
+  extra_deps << [ "json",              "~> 1.5.0"]
+  extra_deps << [ "nokogiri",          "~> 1.5.0"]
   extra_deps << [ "rest-client",       "~> 1.6.1"]
 
   extra_dev_deps << [ "minitest",      "~> 1.7.2"]
